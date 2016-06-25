@@ -1,54 +1,72 @@
 <?
 
 /**
-* 
+* created 	2016
+* autor 	Goncharov S
+* site 		z1q.ru
+* company	ssmart Lab.(ssmart.ru)
 */
+
 class gForm {
-	
-	function formCreat($data) {
+	function formCreat($data, $once = false) {
 		$result = '';
-		if (is_array($data)) {
-			$result.= '<form ';
-			foreach ($data as $Dkey => $D) {
+		if ($once == true) {
+			$result = $this->sborka($data);
+		} else {
+			if (is_array($data)) {
+				$result.= '<form ';
+				foreach ($data as $Dkey => $D) {
 
-				$newName = ($D == '__name') ? $data['name'] : $D;
-				if ($Dkey == 'class') {
-					$result.= $Dkey.'="'.$this->classRender($newName, $data['name']).'" ';
-				} elseif ($Dkey == 'fileds') {
-					$resultForms = '';
-					foreach ($D as $FORMSkey => $FORMS) {
-						$nameForms = $FORMSkey;
-						if ($FORMS['tag'] == 'input') {
-							$resultForms.= "\r\n".'<div class="form-group">';
-							$resultForms.= $this->addLabel($FORMS['label'], $nameForms);
-							$resultForms.= $this->inputForm($FORMS, $nameForms);
-							$resultForms.= "\r\n".'</div>';
-						}
+					$newName = ($D == '__name') ? $data['name'] : $D;
+					if ($Dkey == 'class') {
+						$result.= $Dkey.'="'.$this->classRender($newName, $data['name']).'" ';
+					} elseif ($Dkey == 'fileds') {
+						$resultForms = $this->sborka($D);
+					} else {
+						$result.= $Dkey.'="'.$newName.'" ';
+					}
 
-						if ($FORMS['tag'] == 'textarea') {
-							$resultForms.= "\r\n".'<div class="form-group">';
-							$resultForms.= $this->addLabel($FORMS['label'], $nameForms);
-							$resultForms.= $this->textareaForm($FORMS, $nameForms);
-							$resultForms.= "\r\n".'</div>';
-						}
-
-						if ($FORMS['tag'] == 'select') {
-							$resultForms.= "\r\n".'<div class="form-group">';
-							$resultForms.= $this->addLabel($FORMS['label'], $nameForms);
-							$resultForms.= $this->selectForm($FORMS, $nameForms);
-							$resultForms.= "\r\n".'</div>';
-						}
-					} 
-				} else {
-					$result.= $Dkey.'="'.$newName.'" ';
 				}
-
+				$result.= ' >';			
+				$result.= $resultForms;
+				$result.= "\r\n".'</form>';
 			}
-			$result.= ' >';			
-			$result.= $resultForms;
-			$result.= "\r\n".'</form>';
 		}
 		return $result;
+	}
+	/**************************/
+	function sborka($data) {
+		$resultForms = '';
+		foreach ($data as $FORMSkey => $FORMS) {
+			$nameForms = $FORMSkey;
+			if ($FORMS['tag'] == 'input') {
+				$resultForms.= $this->obvertka('start');
+				$resultForms.= $this->addLabel($FORMS['label'], $nameForms);
+				$resultForms.= $this->inputForm($FORMS, $nameForms);
+				$resultForms.= $this->obvertka('');
+			}
+
+			if ($FORMS['tag'] == 'textarea') {
+				$resultForms.= $this->obvertka('start');
+				$resultForms.= $this->addLabel($FORMS['label'], $nameForms);
+				$resultForms.= $this->textareaForm($FORMS, $nameForms);
+				$resultForms.= $this->obvertka('');
+			}
+
+			if ($FORMS['tag'] == 'select') {
+				$resultForms.= $this->obvertka('start');
+				$resultForms.= $this->addLabel($FORMS['label'], $nameForms);
+				$resultForms.= $this->selectForm($FORMS, $nameForms);
+				$resultForms.= $this->obvertka('');
+			}
+		}
+		return $resultForms;
+
+	}
+	/**************************/
+	function obvertka($type) {
+		$retVal = ($type == 'start') ? "\r\n".'<div class="form-group">' : "\r\n".'</div>' ;
+		return $retVal;
 	}
 	/**************************/
 	function addLabel($data, $name) {
@@ -86,8 +104,8 @@ class gForm {
 	}
 
 	/*************************/
-	function inputForm($data, $name) {
-		$html = "\r\n".'<input ';
+	public function inputForm($data, $name) {
+		$html= "\r\n".'<input ';
 		$html.= 'name="'.$name.'" ';
 		$html.= 'type="'.$data['type'].'" ';
 		$html.= 'id="'.$this->classRender($data['id'], $name).'" ';

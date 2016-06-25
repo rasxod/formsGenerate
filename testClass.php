@@ -1,4 +1,5 @@
 <?
+$tstart=microtime(1);
 require 'class4forms.php';
 
 $dataArray = array(
@@ -50,6 +51,21 @@ $dataArray = array(
 									)
 					)
 	);
+
+$dataArray_1 = array(
+		'myTextForm' 	=> array(
+				'tag'		=> 'input',
+				'type'		=> 'text',
+				'id'		=> '__name',
+				'class'		=> 'form-control,tadysh',
+				'value'		=> '654654676878646',
+				'label'		=> array(
+						'for' 	=> '__name',
+						'text' 	=> 'Password'
+						)
+		
+		)
+	);
 ?>
 <!DOCTYPE html>
 <html>
@@ -64,7 +80,27 @@ $dataArray = array(
 <body>
 <?
 	$myForm = new gForm();
+	// строим нашу форму
 	echo $myForm->formCreat($dataArray);
+?>
+-----------------------------------<br />
+<?
+	//если у нас только одна форма без тега form то добавлем в вызов true
+	echo $myForm->formCreat($dataArray_1, true);
+
+
+
+// Отладочная информация
+$tend=microtime(1); // Засекаем конечное время
+// Округляем до двух знаков после запятой
+$totaltime=round(($tend-$tstart),5);
+// Результат на экран
+echo " <br /> Отладочная информация<br />";
+echo " Время генерации страницы: " . $totaltime . " сек.<br />";
+$exec_time = $totaltime;
+if(function_exists('memory_get_peak_usage'))
+	echo "Пик испльзования памяти: " . round((memory_get_peak_usage() / 1024),2)  . " Kb <br />";
+
 ?>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
