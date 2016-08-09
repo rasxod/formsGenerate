@@ -36,36 +36,56 @@ class gForm {
 	}
 	/**************************/
 	function sborka($data) {
+		$formArr = array(
+			'input'			=> 'inputForm',
+			'textarea'		=> 'textareaForm',
+			'select'		=>	'selectForm'
+			);
 		$resultForms = '';
 		foreach ($data as $FORMSkey => $FORMS) {
 			$nameForms = $FORMSkey;
-			if ($FORMS['tag'] == 'input') {
 				$resultForms.= $this->obvertka('start');
 				$resultForms.= $this->addLabel($FORMS['label'], $nameForms);
-				$resultForms.= $this->inputForm($FORMS, $nameForms);
+				$strEval = '$this->'.$formArr[$FORMS['tag']].'($FORMS, $nameForms);';
+				// print_r($strEval);
+				eval('$resultForms.= $this->'.$formArr[$FORMS['tag']].'($FORMS, $nameForms);');
 				$resultForms.= $this->obvertka('');
-			}
 
-			if ($FORMS['tag'] == 'textarea') {
-				$resultForms.= $this->obvertka('start');
-				$resultForms.= $this->addLabel($FORMS['label'], $nameForms);
-				$resultForms.= $this->textareaForm($FORMS, $nameForms);
-				$resultForms.= $this->obvertka('');
-			}
+			// if ($FORMS['tag'] == 'input') {
+			// 	$resultForms.= $this->obvertka('start');
+			// 	$resultForms.= $this->addLabel($FORMS['label'], $nameForms);
+			// 	$strEval = '$this->'.$formArr[$FORMS['tag']].'($FORMS, $nameForms)'
+			// 	$resultForms.= eval($strEval);
+			// 	$resultForms.= $this->obvertka('');
+			// }
 
-			if ($FORMS['tag'] == 'select') {
-				$resultForms.= $this->obvertka('start');
-				$resultForms.= $this->addLabel($FORMS['label'], $nameForms);
-				$resultForms.= $this->selectForm($FORMS, $nameForms);
-				$resultForms.= $this->obvertka('');
-			}
+			// if ($FORMS['tag'] == 'textarea') {
+			// 	$resultForms.= $this->obvertka('start');
+			// 	$resultForms.= $this->addLabel($FORMS['label'], $nameForms);
+			// 	$resultForms.= $this->textareaForm($FORMS, $nameForms);
+			// 	$resultForms.= $this->obvertka('');
+			// }
+
+			// if ($FORMS['tag'] == 'select') {
+			// 	$resultForms.= $this->obvertka('start');
+			// 	$resultForms.= $this->addLabel($FORMS['label'], $nameForms);
+			// 	$resultForms.= $this->selectForm($FORMS, $nameForms);
+			// 	$resultForms.= $this->obvertka('');
+			// }
 		}
 		return $resultForms;
 
 	}
 	/**************************/
-	function obvertka($type) {
-		$retVal = ($type == 'start') ? "\r\n".'<div class="form-group">' : "\r\n".'</div>' ;
+	function obvertka($type, $data = false) {
+		if ($type == 'start') {
+			$retVal = "\r\n".'<div class="form-group">';
+		} elseif ($type == 'div') {
+			$retVal = "\r\n".$data;
+		} else {
+			$retVal = "\r\n".'</div>';
+		}
+		
 		return $retVal;
 	}
 	/**************************/
@@ -75,6 +95,7 @@ class gForm {
 		} else {
 			$label = "\r\n".'<label';
 			$doName = ($data['for'] == '__name') ? $name : $data['for'];
+			$label .= ' class="'.$this->classRender($data['class'], $name).'"';
 			$label .= ' for="'.$doName.'">';
 			$label .= $data['text'];
 			$label .= '</label>';
@@ -112,6 +133,12 @@ class gForm {
 		$html.= 'class="'.$this->classRender($data['class'], $name).'" ';
 		$html.= 'value="'.$data['value'].'" ';
 		$html.= '/>';
+		if ($data['addDiv'] != '') {
+			$html_1 = $this->obvertka('div', $data['addDiv']);
+			$html_1.= $html;
+			$html_1.= $this->obvertka('');
+			$html = $html_1; 
+		}
 		return $html;
 	}
 
@@ -124,6 +151,12 @@ class gForm {
 		$html.= 'cols="'.$data['cols'].'" ';
 		$html.= '>'.$data['value'];
 		$html.= '</textarea>';
+		if ($data['addDiv'] != '') {
+			$html_1 = $this->obvertka('div', $data['addDiv']);
+			$html_1.= $html;
+			$html_1.= $this->obvertka('');
+			$html = $html_1; 
+		}
 
 		return $html;
 	}
@@ -156,6 +189,12 @@ class gForm {
 			$html.= "\r\n".'<option value="'.$DAkey.'" '.$selected.'>'.$DA.'</option>';
 		}
 		$html.= "\r\n".'</select>';
+		if ($data['addDiv'] != '') {
+			$html_1 = $this->obvertka('div', $data['addDiv']);
+			$html_1.= $html;
+			$html_1.= $this->obvertka('');
+			$html = $html_1; 
+		}
 
 		return $html;
 	}
