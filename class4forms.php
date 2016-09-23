@@ -39,39 +39,16 @@ class gForm {
 		$formArr = array(
 			'input'			=> 'inputForm',
 			'textarea'		=> 'textareaForm',
-			'select'		=>	'selectForm'
+			'select'		=> 'selectForm',
+			'button'		=> 'buttonForm'
 			);
 		$resultForms = '';
 		foreach ($data as $FORMSkey => $FORMS) {
 			$nameForms = $FORMSkey;
-				$resultForms.= $this->obvertka('start');
+				$resultForms.= $this->obvertka('start', $FORMS['form-group']);
 				$resultForms.= $this->addLabel($FORMS['label'], $nameForms);
-				$strEval = '$this->'.$formArr[$FORMS['tag']].'($FORMS, $nameForms);';
-				// print_r($strEval);
 				eval('$resultForms.= $this->'.$formArr[$FORMS['tag']].'($FORMS, $nameForms);');
 				$resultForms.= $this->obvertka('');
-
-			// if ($FORMS['tag'] == 'input') {
-			// 	$resultForms.= $this->obvertka('start');
-			// 	$resultForms.= $this->addLabel($FORMS['label'], $nameForms);
-			// 	$strEval = '$this->'.$formArr[$FORMS['tag']].'($FORMS, $nameForms)'
-			// 	$resultForms.= eval($strEval);
-			// 	$resultForms.= $this->obvertka('');
-			// }
-
-			// if ($FORMS['tag'] == 'textarea') {
-			// 	$resultForms.= $this->obvertka('start');
-			// 	$resultForms.= $this->addLabel($FORMS['label'], $nameForms);
-			// 	$resultForms.= $this->textareaForm($FORMS, $nameForms);
-			// 	$resultForms.= $this->obvertka('');
-			// }
-
-			// if ($FORMS['tag'] == 'select') {
-			// 	$resultForms.= $this->obvertka('start');
-			// 	$resultForms.= $this->addLabel($FORMS['label'], $nameForms);
-			// 	$resultForms.= $this->selectForm($FORMS, $nameForms);
-			// 	$resultForms.= $this->obvertka('');
-			// }
 		}
 		return $resultForms;
 
@@ -79,7 +56,7 @@ class gForm {
 	/**************************/
 	function obvertka($type, $data = false) {
 		if ($type == 'start') {
-			$retVal = "\r\n".'<div class="form-group">';
+			$retVal = "\r\n".'<div class="form-group '.$data.'">';
 		} elseif ($type == 'div') {
 			$retVal = "\r\n".$data;
 		} else {
@@ -111,13 +88,13 @@ class gForm {
 	/**************************/
 	function classRender($classData, $name) {
 		$expData = $this->doExplode($classData);
-		if (is_array($expData)) {
+		if (is_array($expData) && count($expData)>1) {
 			$classResult = '';
 			foreach ($expData as $EDkey => $ED) {
 				$classResult.= ($ED == '__name') ? $name.' ' : $ED.' ';
 			}
 		} elseif ($classData == '__name') {
-			$classResult.= $name.' ';
+			$classResult.= $name;
 		} else {
 			$classResult = $classData;
 		}
@@ -125,14 +102,31 @@ class gForm {
 	}
 
 	/*************************/
-	public function inputForm($data, $name) {
+	function inputForm($data, $name) {
 		$html= "\r\n".'<input ';
 		$html.= 'name="'.$name.'" ';
 		$html.= 'type="'.$data['type'].'" ';
 		$html.= 'id="'.$this->classRender($data['id'], $name).'" ';
 		$html.= 'class="'.$this->classRender($data['class'], $name).'" ';
 		$html.= 'value="'.$data['value'].'" ';
+		$html.= ($data['placeholder'] != '' ) ? 'placeholder="'.$data['placeholder'].'" ' : '';
 		$html.= '/>';
+		if ($data['addDiv'] != '') {
+			$html_1 = $this->obvertka('div', $data['addDiv']);
+			$html_1.= $html;
+			$html_1.= $this->obvertka('');
+			$html = $html_1; 
+		}
+		return $html;
+	}
+	function buttonForm($data, $name) {
+		$html= "\r\n".'<button ';
+		$html.= 'name="'.$name.'" ';
+		$html.= ($data['type'] != '') ? 'type="'.$data['type'].'" ' : '' ;
+		$html.= 'id="'.$this->classRender($data['id'], $name).'" ';
+		$html.= 'class="'.$this->classRender($data['class'], $name).'">';
+		$html.= $data['value'];
+		$html.= '</button>';
 		if ($data['addDiv'] != '') {
 			$html_1 = $this->obvertka('div', $data['addDiv']);
 			$html_1.= $html;
@@ -172,21 +166,46 @@ class gForm {
 		}
 		$html.= '>';
 		$values = $this->doExplode($data['value']);
-		foreach ($data['data'] as $DAkey => $DA) {
-			if($data['addParams'] == 'multiple' && is_array($values)) {
-				foreach ($values as $key => $doVal) {
-					if ($DA == $doVal) {
-						$selected = 'selected';
-						break;
-					} else {
-						$selected = '';
+		if ($data['data'] != '') {
+			foreach ($data['data'] as $DAkey => $DA) {
+				if($data['addParams'] == 'multiple' && is_array($values)) {
+					foreach ($values as $key => $doVal) {
+						if ($DA == $doVal) {
+							$selected = 'selected';
+							break;
+						} else {
+							$selected = '';
+						}
 					}
+				} else {
+					$selected = ($data['value'] == $DAkey) ? 'selected' : '' ;
 				}
-			} else {
-				$selected = ($data['value'] == $DAkey) ? 'selected' : '' ;
+				
+				if (is_array($DA)) {				
+					$html.= "\r\n".'<option value="'.$DAkey.'" '.$selected.'>'.$DA.'</option>';
+				} else {
+					$html.= "\r\n".'<option value="'.$DAkey.'" '.$selected.'>'.$DA.'</option>';
+				}
 			}
-			
-			$html.= "\r\n".'<option value="'.$DAkey.'" '.$selected.'>'.$DA.'</option>';
+		}
+		if ($data['data-asoc'] != '') {
+			$selectors_1 = $data['data-asoc'][1];
+			$selectors_2 = $data['data-asoc'][2];
+			foreach ($data['data-asoc'][0] as $DAkey => $DA) {
+				if($data['addParams'] == 'multiple' && is_array($values)) {
+					foreach ($values as $key => $doVal) {
+						if ($DA[$selectors_1] == $doVal) {
+							$selected = 'selected';
+							break;
+						} else {
+							$selected = '';
+						}
+					}
+				} else {
+					$selected = ($data['value'] == $DA[$selectors_1]) ? 'selected' : '' ;
+				}
+				$html.= "\r\n".'<option value="'.$DA[$selectors_1].'" '.$selected.'>'.$DA[$selectors_2].'</option>';
+			}
 		}
 		$html.= "\r\n".'</select>';
 		if ($data['addDiv'] != '') {
