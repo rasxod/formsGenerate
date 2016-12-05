@@ -45,10 +45,10 @@ class gForm {
 		$resultForms = '';
 		foreach ($data as $FORMSkey => $FORMS) {
 			$nameForms = $FORMSkey;
-				$resultForms.= $this->obvertka('start', $FORMS['form-group']);
-				$resultForms.= $this->addLabel($FORMS['label'], $nameForms);
-				eval('$resultForms.= $this->'.$formArr[$FORMS['tag']].'($FORMS, $nameForms);');
-				$resultForms.= $this->obvertka('');
+			$resultForms.= $this->obvertka('start');
+			$resultForms.= $this->addLabel($FORMS['label'], $nameForms);
+			eval('$resultForms.= $this->'.$formArr[$FORMS['tag']].'($FORMS, $nameForms);');
+			$resultForms.= $this->obvertka('');
 		}
 		return $resultForms;
 
@@ -56,7 +56,7 @@ class gForm {
 	/**************************/
 	function obvertka($type, $data = false) {
 		if ($type == 'start') {
-			$retVal = "\r\n".'<div class="form-group '.$data.'">';
+			$retVal = "\r\n".'<div class="form-group">';
 		} elseif ($type == 'div') {
 			$retVal = "\r\n".$data;
 		} else {
@@ -80,9 +80,9 @@ class gForm {
 		return $label;
 	}
 	/**************************/
-	function doExplode($data) {
+	function doExplode($data, $expPatern = ',') {
 		$doData = str_replace(" ", "", $data);
-		$doData = explode(',', $doData);
+		$doData = explode($expPatern, $doData);
 		return $doData;
 	}
 	/**************************/
@@ -110,6 +110,11 @@ class gForm {
 		$html.= 'class="'.$this->classRender($data['class'], $name).'" ';
 		$html.= 'value="'.$data['value'].'" ';
 		$html.= ($data['placeholder'] != '' ) ? 'placeholder="'.$data['placeholder'].'" ' : '';
+		foreach ($data as $dkey => $D) {
+			$nameKey = $this->doExplode($dkey, '-');
+			$html.= ($nameKey['0'] == 'data' ) ? $dkey.'="'.$data[$dkey].'" ' : '';
+		}
+		
 		$html.= '/>';
 		if ($data['addDiv'] != '') {
 			$html_1 = $this->obvertka('div', $data['addDiv']);
@@ -124,6 +129,10 @@ class gForm {
 		$html.= 'name="'.$name.'" ';
 		$html.= ($data['type'] != '') ? 'type="'.$data['type'].'" ' : '' ;
 		$html.= 'id="'.$this->classRender($data['id'], $name).'" ';
+		foreach ($data as $dkey => $D) {
+			$nameKey = $this->doExplode($dkey, '-');
+			$html.= ($nameKey['0'] == 'data' ) ? $dkey.'="'.$data[$dkey].'" ' : '';
+		}
 		$html.= 'class="'.$this->classRender($data['class'], $name).'">';
 		$html.= $data['value'];
 		$html.= '</button>';
@@ -143,6 +152,10 @@ class gForm {
 		$html.= 'class="'.$this->classRender($data['class'], $name).'" ';
 		$html.= 'rows="'.$data['rows'].'" ';
 		$html.= 'cols="'.$data['cols'].'" ';
+		foreach ($data as $dkey => $D) {
+			$nameKey = $this->doExplode($dkey, '-');
+			$html.= ($nameKey['0'] == 'data' ) ? $dkey.'="'.$data[$dkey].'" ' : '';
+		}
 		$html.= '>'.$data['value'];
 		$html.= '</textarea>';
 		if ($data['addDiv'] != '') {
@@ -163,6 +176,10 @@ class gForm {
 		$html.= ' '.$data['addParams'].' ';
 		if ($data['size'] != '') {
 			$html.= 'size="'.$data['size'].'" ';
+		}
+		foreach ($data as $dkey => $D) {
+			$nameKey = $this->doExplode($dkey, '-');
+			$html.= ($nameKey['0'] == 'data' ) ? $dkey.'="'.$data[$dkey].'" ' : '';
 		}
 		$html.= '>';
 		$values = $this->doExplode($data['value']);
