@@ -45,10 +45,15 @@ class gForm {
 		$resultForms = '';
 		foreach ($data as $FORMSkey => $FORMS) {
 			$nameForms = $FORMSkey;
-			$resultForms.= $this->obvertka('start');
-			$resultForms.= $this->addLabel($FORMS['label'], $nameForms);
-			eval('$resultForms.= $this->'.$formArr[$FORMS['tag']].'($FORMS, $nameForms);');
-			$resultForms.= $this->obvertka('');
+				if ($FORMS['doAddDiv'] != '') {
+					$resultForms.= $this->obvertka('start', $FORMS['doAddDiv']);
+				} else {
+					$resultForms.= $this->obvertka('start');
+				}
+				
+				$resultForms.= $this->addLabel($FORMS['label'], $nameForms);
+				eval('$resultForms.= $this->'.$formArr[$FORMS['tag']].'($FORMS, $nameForms);');
+				$resultForms.= $this->obvertka('');
 		}
 		return $resultForms;
 
@@ -56,7 +61,7 @@ class gForm {
 	/**************************/
 	function obvertka($type, $data = false) {
 		if ($type == 'start') {
-			$retVal = "\r\n".'<div class="form-group">';
+			$retVal = "\r\n".'<div class="form-group '.$data.'">';
 		} elseif ($type == 'div') {
 			$retVal = "\r\n".$data;
 		} else {

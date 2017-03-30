@@ -57,8 +57,10 @@ $dataArray_1 = array(
 				'tag'		=> 'input',
 				'type'		=> 'text',
 				'id'		=> '__name',
+				'data-rentid'	=> '112',
 				'class'		=> 'form-control,tadysh',
 				'value'		=> '654654676878646',
+				'doAddDiv'	=> 'col-sm-4',
 				'addDiv'	=> '<div class="col-sm-4">',
 				'label'		=> array(
 						'for' 	=> '__name',
