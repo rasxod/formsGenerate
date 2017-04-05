@@ -184,7 +184,11 @@ class gForm {
 		}
 		foreach ($data as $dkey => $D) {
 			$nameKey = $this->doExplode($dkey, '-');
-			$html.= ($nameKey['0'] == 'data' ) ? $dkey.'="'.$data[$dkey].'" ' : '';
+			if ($nameKey['0'] == 'data') {
+				if ($nameKey['1'] != 'asoc') {
+					$html.= $dkey.'="'.$data[$dkey].'" ';
+				}
+			}
 		}
 		$html.= '>';
 		$values = $this->doExplode($data['value']);
@@ -224,7 +228,11 @@ class gForm {
 						}
 					}
 				} else {
-					$selected = ($data['value'] == $DA[$selectors_1]) ? 'selected' : '' ;
+					if ($data['value'] == '') {
+						$selected = ($DAkey == 0) ? 'selected' : '' ;
+					} else {
+						$selected = ($data['value'] == $DA[$selectors_1]) ? 'selected' : '' ;
+					}
 				}
 				$html.= "\r\n".'<option value="'.$DA[$selectors_1].'" '.$selected.'>'.$DA[$selectors_2].'</option>';
 			}

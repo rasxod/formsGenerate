@@ -54,21 +54,31 @@ $dataArray = array(
 
 $dataArray_1 = array(
 		'myTextForm' 	=> array(
-				'tag'		=> 'input',
-				'type'		=> 'text',
-				'id'		=> '__name',
-				'data-rentid'	=> '112',
-				'class'		=> 'form-control,tadysh',
-				'value'		=> '654654676878646',
-				'doAddDiv'	=> 'col-sm-4',
-				'addDiv'	=> '<div class="col-sm-4">',
-				'label'		=> array(
-						'for' 	=> '__name',
-						'class'	=> 'col-sm-2,control-label',
-						'text' 	=> 'Password'
-						)
-		
-		)
+			'tag'		=> 'input',
+			'type'		=> 'text',
+			'id'		=> '__name',
+			'data-rentid'	=> '112',
+			'class'		=> 'form-control,tadysh',
+			'value'		=> '654654676878646',
+			'doAddDiv'	=> 'col-sm-4',
+			'addDiv'	=> '<div class="col-sm-4">',
+			'label'		=> array(
+				'for' 	=> '__name',
+				'class'	=> 'col-sm-2,control-label',
+				'text' 	=> 'Password'
+				)
+			),
+		'type_prices'	=> array(
+			'tag'		=> 'select',
+			'id'		=> '__name',
+			'data-asoc'	=> array($L_type_prices, 'id', 'article'),
+			'class'		=> '__name,form-control',
+			'value'		=> $RowData['type_prices'],
+			'label'		=> array(
+				'for'	=> '__name',
+				'text'	=> 'Тип оплаты',
+				),
+			),
 	);
 ?>
 <!DOCTYPE html>
