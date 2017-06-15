@@ -15,7 +15,7 @@ echo $myForm->formCreat($my_adreses_array);
 echo $myForm->formCreat($my_adreses_array, true);
 ```
 
-##LASTLOG
+# LASTLOG
 
-15-06-2017
-1. Добавлено label название поля скобочках (кроме 'text' можно так 'text+name') тогда название будет типа текст(name)
+**15-06-2017**
+1. Добавлено *label* название поля скобочках (кроме **'text'** можно так **'text+name'**) тогда название будет типа **текст(name)**
