@@ -37,7 +37,7 @@ $dataArray = array(
 									'value'		=> '2',
 									'label'		=> array(
 												'for'	=> '__name',
-												'text'	=> 'еще тест'
+												'text+name'	=> 'еще тест'
 												)
 									),
 					'myMultiSelect'	=> array(

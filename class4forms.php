@@ -79,7 +79,11 @@ class gForm {
 			$doName = ($data['for'] == '__name') ? $name : $data['for'];
 			$label .= ' class="'.$this->classRender($data['class'], $name).'"';
 			$label .= ' for="'.$doName.'">';
-			$label .= $data['text'];
+			if (isset($data['text+name'])) {
+				$label .= $data['text+name'].'('.$name.')';
+			} else {
+				$label .= $data['text'];
+			}
 			$label .= '</label>';
 		}
 		return $label;
