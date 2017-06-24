@@ -40,7 +40,8 @@ class gForm {
 			'input'			=> 'inputForm',
 			'textarea'		=> 'textareaForm',
 			'select'		=> 'selectForm',
-			'button'		=> 'buttonForm'
+			'button'		=> 'buttonForm',
+			'color'			=> 'colorForm',
 			);
 		$resultForms = '';
 		foreach ($data as $FORMSkey => $FORMS) {
@@ -133,6 +134,30 @@ class gForm {
 		}
 		return $html;
 	}
+
+	function colorForm($data, $name) {
+		$html= "\r\n".'<input ';
+		$html.= 'name="'.$name.'" ';
+		$html.= 'type="'.$data['type'].'" ';
+		$html.= 'id="'.$this->classRender($data['id'], $name).'" ';
+		$html.= 'class="'.$this->classRender($data['class'], $name).'" ';
+		$html.= 'value="'.$data['value'].'" ';
+		// $html.= ($data['placeholder'] != '' ) ? 'placeholder="'.$data['placeholder'].'" ' : '';
+		foreach ($data as $dkey => $D) {
+			$nameKey = $this->doExplode($dkey, '-');
+			$html.= ($nameKey['0'] == 'data' ) ? $dkey.'="'.$data[$dkey].'" ' : '';
+		}
+		
+		$html.= '/>';
+		if ($data['addDiv'] != '') {
+			$html_1 = $this->obvertka('div', $data['addDiv']);
+			$html_1.= $html;
+			$html_1.= $this->obvertka('');
+			$html = $html_1; 
+		}
+		return $html;
+	}
+
 	function buttonForm($data, $name) {
 		$html= "\r\n".'<button ';
 		$html.= 'name="'.$name.'" ';
