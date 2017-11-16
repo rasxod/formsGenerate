@@ -214,7 +214,7 @@ class gForm {
 		foreach ($data as $dkey => $D) {
 			$nameKey = $this->doExplode($dkey, '-');
 			if ($nameKey['0'] == 'data') {
-				if ($nameKey['1'] != 'asoc') {
+				if ($nameKey['1'] != 'asoc' && $nameKey['1'] != '') {
 					$html.= $dkey.'="'.$data[$dkey].'" ';
 				}
 			}
