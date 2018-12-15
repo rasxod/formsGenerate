@@ -1,4 +1,10 @@
 <?
+//Отображение ошибок//////////////////////
+ini_set("display_errors","0");			//
+ini_set("display_startup_errors","0");	//
+ini_set('error_reporting', E_ALL);		//
+//////////////////////////////////////////
+
 $tstart=microtime(1);
 require 'class4forms.php';
 
@@ -60,13 +66,34 @@ $dataArray_1 = array(
 			'data-rentid'	=> '112',
 			'class'		=> 'form-control,tadysh',
 			'value'		=> '654654676878646',
-			'doAddDiv'	=> 'col-sm-4',
-			'addDiv'	=> '<div class="col-sm-4">',
+			'doAddDiv'	=> 'input-group',
+			'addDiv'	=> '<div class="col-sm-6">',
+			// 'first_add'	=> '<div class="input-group-btn"> <button type="button" class="btn btn-danger">Action</button> </div>',
 			'label'		=> array(
 				'for' 	=> '__name',
-				'class'	=> 'col-sm-2,control-label',
+				'class'	=> 'col-sm-3,control-label',
 				'text' 	=> 'Password'
 				)
+			),
+		'act_text_form' 	=> array(
+			'tag'		=> 'input',
+			'type'		=> 'text',
+			'id'		=> '__name',
+			// 'data-rentid'	=> '112',
+			'class'		=> 'form-control',
+			'value'		=> '654654676878646',
+			'doAddDiv'	=> 'input-group',
+			// 'addDiv'	=> '<div class="col-sm-4">',
+			// 'first_add'	=> '<div class="input-group-btn"> <button type="button" class="btn btn-danger">Выбрать картинку</button> </div>',
+			'start_act_div'	=> array(
+				'a_class'	=> 'btn,btn-danger',
+				'a_text'	=> 'Выбрать картинку',
+				),
+			// 'label'		=> array(
+			// 	'for' 	=> '__name',
+			// 	// 'class'	=> 'col-sm-2,control-label',
+			// 	'text' 	=> 'Password'
+			// 	)
 			),
 		'type_prices'	=> array(
 			'tag'		=> 'select',
@@ -78,6 +105,20 @@ $dataArray_1 = array(
 				'for'	=> '__name',
 				'text'	=> 'Тип оплаты',
 				),
+			),
+		'resBut' 	=> array(
+			'tag'		=> 'button',
+			'type'		=> 'reset',
+			'id'		=> '__name',
+			'class'		=> 'btn,btn-default',
+			'value'		=> 'Сбросить',
+			),
+		'saveBut' 	=> array(
+			'tag'		=> 'button',
+			'type'		=> 'submit',
+			'id'		=> '__name',
+			'class'		=> 'btn,btn-success',
+			'value'		=> 'Сохранить',
 			),
 	);
 ?>
@@ -95,9 +136,20 @@ $dataArray_1 = array(
 <?
 	$myForm = new gForm();
 	// строим нашу форму
-	echo $myForm->formCreat($dataArray);
+	// echo $myForm->formCreat($dataArray);
 ?>
 -----------------------------------<br />
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="form-group input-group">
+                <div class="input-group-btn">
+                  <button type="button" class="btn btn-danger">Action</button>
+                </div>
+                <!-- /btn-group -->
+                <input type="text" class="form-control">
+              </div>
+			
 <?
 	//если у нас только одна форма без тега form то добавлем в вызов true
 	echo $myForm->formCreat($dataArray_1, true);
@@ -116,6 +168,9 @@ if(function_exists('memory_get_peak_usage'))
 	echo "Пик испльзования памяти: " . round((memory_get_peak_usage() / 1024),2)  . " Kb <br />";
 
 ?>
+		</div>
+	</div>
+</div>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <!-- Latest compiled and minified JavaScript -->

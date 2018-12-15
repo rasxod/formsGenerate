@@ -5,6 +5,7 @@
 * autor 	Goncharov S
 * site 		z1q.ru
 * company	ssmart Lab.(ssmart.ru)
+* version 	0.83b
 */
 
 class gForm {
@@ -53,6 +54,8 @@ class gForm {
 				}
 				
 				$resultForms.= $this->addLabel($FORMS['label'], $nameForms);
+				$resultForms.= $this->add_pos_div($FORMS['first_add'], $nameForms);
+				$resultForms.= $this->_act_div__start($FORMS['start_act_div'], $nameForms); // добавление action button
 				eval('$resultForms.= $this->'.$formArr[$FORMS['tag']].'($FORMS, $nameForms);');
 				$resultForms.= $this->obvertka('');
 		}
@@ -88,6 +91,26 @@ class gForm {
 			$label .= '</label>';
 		}
 		return $label;
+	}
+	/**************************/
+	function add_pos_div($data) {
+		if ($data != '') {
+			return $data;
+		}
+	}
+	/**************************/
+	function _act_div__start($data) {
+		$action_div = '';
+		if ($data != '') {
+			$action_div .= '<div class="input-group-btn">';
+			$action_div .= '<button type="button"';
+			$action_div .= ($data['a_class'] != '') ? 'class="'.$this->classRender($data['a_class'], '').'"' : '';
+			$action_div .= '>';
+			$action_div .= $data['a_text'];
+			$action_div .= '</button>';
+			$action_div .= '</div>';
+		}
+		return $action_div;
 	}
 	/**************************/
 	function doExplode($data, $expPatern = ',') {
