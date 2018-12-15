@@ -54,7 +54,7 @@ class gForm {
 				}
 				
 				$resultForms.= $this->addLabel($FORMS['label'], $nameForms);
-				$resultForms.= $this->add_pos_div($FORMS['first_add'], $nameForms);
+				// $resultForms.= $this->add_pos_div($FORMS['first_add'], $nameForms);
 				$resultForms.= $this->_act_div__start($FORMS['start_act_div'], $nameForms); // добавление action button
 				eval('$resultForms.= $this->'.$formArr[$FORMS['tag']].'($FORMS, $nameForms);');
 				$resultForms.= $this->obvertka('');
@@ -93,11 +93,11 @@ class gForm {
 		return $label;
 	}
 	/**************************/
-	function add_pos_div($data) {
-		if ($data != '') {
-			return $data;
-		}
-	}
+	// function add_pos_div($data) {
+	// 	if ($data != '') {
+	// 		return $data;
+	// 	}
+	// }
 	/**************************/
 	function _act_div__start($data) {
 		$action_div = '';
