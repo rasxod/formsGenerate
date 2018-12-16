@@ -5,7 +5,7 @@
 * autor 	Goncharov S
 * site 		z1q.ru
 * company	ssmart Lab.(ssmart.ru)
-* version 	0.83b
+* version 	0.84b
 */
 
 class gForm {
@@ -104,7 +104,7 @@ class gForm {
 		if ($data != '') {
 			$action_div .= '<div class="input-group-btn">';
 			$action_div .= '<button type="button"';
-			$action_div .= ($data['a_class'] != '') ? 'class="'.$this->classRender($data['a_class'], '').'"' : '';
+			$action_div .= ($data['a_class'] != '') ? 'class="'.$this->classRender($data['a_class'], $name).'"' : '';
 			$action_div .= '>';
 			$action_div .= $data['a_text'];
 			$action_div .= '</button>';
