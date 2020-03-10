@@ -235,9 +235,10 @@ class gForm {
 				} else {
 					$selected = ($data['value'] == $DAkey) ? 'selected' : '' ;
 				}
-				
+				$_disabled = ($DAkey == '...') ? 'disabled selected' : '';
+
 				if (is_array($DA)) {				
-					$html.= "\r\n".'<option value="'.$DAkey.'" '.$selected.'>'.$DA.'</option>';
+					$html.= "\r\n".'<option value="'.$DAkey.'" '.$_disabled.' '.$selected.'>'.$DA.'</option>';
 				} else {
 					$html.= "\r\n".'<option value="'.$DAkey.'" '.$selected.'>'.$DA.'</option>';
 				}

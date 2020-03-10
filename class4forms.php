@@ -136,10 +136,18 @@ class gForm {
 
 	/*************************/
 	function inputForm($data, $name) {
+		if ($data['multiple'] != '' ) {
+			$field_name = $name.'[]';
+			$multiple = 'multiple="multiple"';
+		} else {
+			$field_name = $name;
+			$multiple = '';
+		}
 		$html= "\r\n".'<input ';
 		$html.= 'name="'.$name.'" ';
 		$html.= 'type="'.$data['type'].'" ';
 		$html.= 'id="'.$this->classRender($data['id'], $name).'" ';
+		$html.= $multiple;
 		$html.= 'class="'.$this->classRender($data['class'], $name).'" ';
 		$html.= 'value="'.$data['value'].'" ';
 		$html.= ($data['placeholder'] != '' ) ? 'placeholder="'.$data['placeholder'].'" ' : '';
