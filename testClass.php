@@ -16,46 +16,58 @@ $dataArray = array(
 	'method'	=> 'post',
 	'action'	=> '/',
 	'fileds'	=> array(
-					'myTextForm' 	=> array(
-									'tag'		=> 'input',
-									'type'		=> 'text',
-									'id'		=> '__name',
-									'class'		=> 'form-control,tadysh',
-									'value'		=> '654654676878646',
-									'label'		=> array(
-												'for' 	=> '__name',
-												'text' 	=> 'Password'
-												)
-									),
-					'myBigTextForm'	=> array(
-									'tag'		=> 'textarea',
-									'rows'		=> '10',
-									'cols'		=> '10',
-									'id'		=> '__name',
-									'class'		=> '__name,form-control',
-									'value'		=> ''
-									),
-					'mySelect'	=> array(
-									'tag'		=> 'select',
-									'id'		=> '__name',
-									'data'		=> array('...',1,2,3),
-									'class'		=> '__name,form-control',
-									'value'		=> '2',
-									'label'		=> array(
-												'for'	=> '__name',
-												'text+name'	=> 'еще тест'
-												)
-									),
-					'myMultiSelect'	=> array(
-									'tag'		=> 'select',
-									'id'		=> '__name',
-									'data'		=> array('...',1,2 , 3,4,5,6),
-									'class'		=> '__name,form-control',
-									'value'		=> '2,4,5',
-									'addParams'	=> 'multiple',
-									'size'		=> 5
-									)
-					)
+		'myTextForm' 	=> array(
+			'tag'		=> 'input',
+			'type'		=> 'text',
+			'id'		=> '__name',
+			'class'		=> 'form-control,tadysh',
+			'value'		=> '654654676878646',
+			'label'		=> array(
+						'for' 	=> '__name',
+						'text' 	=> 'Password'
+						)
+			),
+		'myBigTextForm'	=> array(
+			'tag'		=> 'textarea',
+			'rows'		=> '10',
+			'cols'		=> '10',
+			'id'		=> '__name',
+			'class'		=> '__name,form-control',
+			'value'		=> ''
+			),
+		'mySelect'	=> array(
+			'tag'		=> 'select',
+			'id'		=> '__name',
+			'data'		=> array('...',1,2,3),
+			'class'		=> '__name,form-control',
+			'value'		=> '2',
+			'label'		=> array(
+						'for'	=> '__name',
+						'text+name'	=> 'еще тест'
+						)
+			),
+		'myMultiSelect'	=> array(
+			'tag'		=> 'select',
+			'id'		=> '__name',
+			'data'		=> array('...',1,2 , 3,4,5,6),
+			'class'		=> '__name,form-control',
+			'value'		=> '2,4,5',
+			'addParams'	=> 'multiple',
+			'size'		=> 5
+			)
+		),
+		'fileUP' 	=> array(
+		'tag'		=> 'input',
+		'multiple'	=> 'multiple',
+		'type'		=> 'file',
+		'id'		=> '__name',
+		'class'		=> 'form-control',
+		'label'		=> array(
+			'for' 	=> '__name',
+			'text' 	=> 'Файл занятия',
+			),
+		),
+
 	);
 
 $dataArray_1 = array(
